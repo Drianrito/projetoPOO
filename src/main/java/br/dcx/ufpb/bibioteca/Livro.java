@@ -5,17 +5,19 @@ import java.util.Objects;
 public class Livro implements Comparable<Livro>{
 
     private String titulo;
+    private GeneroLivro generoLivro;
     private String autor;
     private String codLivro;
 
-    public Livro(String titulo, String autor, String codLivro) {
+    public Livro(String titulo, GeneroLivro generoLivro, String autor, String codLivro) {
         this.titulo = titulo;
+        this.generoLivro = generoLivro;
         this.autor = autor;
         this.codLivro = codLivro;
     }
 
     public Livro() {
-        this("", "","");
+        this("", null, "","");
     }
 
     public String getTitulo() {
@@ -24,6 +26,14 @@ public class Livro implements Comparable<Livro>{
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public GeneroLivro getGeneroLivro() {
+        return generoLivro;
+    }
+
+    public void setGeneroLivro(GeneroLivro generoLivro) {
+        this.generoLivro = generoLivro;
     }
 
     public String getAutor() {
@@ -45,6 +55,7 @@ public class Livro implements Comparable<Livro>{
     @Override
     public String toString() {
         return "Titulo: " + titulo +
+                "\n Gênero do Livro: " + generoLivro +
                 "\n Autor: " + autor +
                 "\n Código do Livro: " + codLivro;
     }

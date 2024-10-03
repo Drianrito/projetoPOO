@@ -1,6 +1,5 @@
 package br.dcx.ufpb.bibioteca.gui;
 
-import br.dcx.ufpb.bibioteca.BibliotecaFacade;
 import br.dcx.ufpb.bibioteca.Livro;
 
 import javax.swing.*;

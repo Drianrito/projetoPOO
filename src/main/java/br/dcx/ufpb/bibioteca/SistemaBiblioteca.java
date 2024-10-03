@@ -1,9 +1,10 @@
 package br.dcx.ufpb.bibioteca;
 
-import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
-import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.exception.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,9 +13,9 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Emprestimo> emprestimos = new ArrayList<>();
 
-    public boolean cadastrarLivro(String titulo, String autor, String codLivro) throws LivroJaExisteException {
+    public boolean cadastrarLivro(String titulo, GeneroLivro generoLivro, String autor, String codLivro) throws LivroJaExisteException {
         if (!this.livros.containsKey(codLivro)) {
-            Livro novoLivro = new Livro(titulo, autor, codLivro);
+            Livro novoLivro = new Livro(titulo, generoLivro, autor, codLivro);
             livros.put(codLivro, novoLivro);
             return true;
         } else {
@@ -32,26 +33,56 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         }
     }
 
-    public Livro buscarLivroPorTitulo(String titulo) {
-        Livro livroBuscado = new Livro();
+    public Collection<Livro> buscarLivroPorTitulo(String titulo) {
+        return this.livros.values().stream().filter(livro -> livro.getTitulo().startsWith(titulo)).toList();
+    }
+
+    public Collection<Livro> buscarLivrosPorGenero(GeneroLivro generoLivro) {
+        Collection<Livro> livrosPorGenero = new ArrayList<>();
+        for (Livro livro: this.livros.values()) {
+            if (livro.getGeneroLivro() == generoLivro) {
+                livrosPorGenero.add(livro);
+            }
+        } return livrosPorGenero;
+    }
+
+    /*public Livro buscarLivroPorTitulo(String titulo) {
+         Livro livroBuscado = new Livro();
         for (Livro livro: this.livros.values()) {
             if (livro.getTitulo().equals(titulo)) {
                 livroBuscado = livro;
             }
         }
         return livroBuscado;
-    }
+    }*/
 
-    public boolean removerLivro(String codLivro) {
+    public boolean removerLivro(String codLivro) throws LivroNaoExisteException {
         if (this.livros.containsKey(codLivro)) {
             this.livros.remove(codLivro);
             return true;
-        } return false;
+        } else {
+            throw new LivroNaoExisteException("Não existe livro no sistema com o código informado.");
+        }
     }
 
-    public void realizarEmprestimo(String matricula, String tituloLivro, String dataEmprestimo, String dataDevolucao) {
-        Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
+    public void realizarEmprestimo(String matricula, String tituloLivro, PeriodoEmprestimo periodoEmprestimo) {
+        Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, periodoEmprestimo);
         this.emprestimos.add(emprestimo);
     }
-}
 
+    public Emprestimo pesquisarEmprestimoPorMatricula(String matricula) throws MatriculaNaoEncontradaException {
+        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElseThrow(() -> new MatriculaNaoEncontradaException("Matrícula informada não encontrada."));
+    }
+
+    public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
+        Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();
+        if (mes < 1 || mes > 12) {
+            throw new MesInformadoNaoExisteException("O mês digitado não existe.");
+        }
+        for (Emprestimo emp: this.emprestimos) {
+            if (emp.getPeriodoEmprestimo().getDataEmprestimo().getMonthValue() == mes) {
+                emprestimosRealizadosNoMes.add(emp);
+            }
+        } return emprestimosRealizadosNoMes;
+    }
+}
