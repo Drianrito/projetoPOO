@@ -1,10 +1,15 @@
 package br.dcx.ufpb.bibioteca.gui;
 
 import br.dcx.ufpb.bibioteca.BibliotecaFacade;
+import br.dcx.ufpb.bibioteca.Emprestimo;
 import br.dcx.ufpb.bibioteca.Livro;
+import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class BibliotecaGUI extends JFrame {
 
@@ -76,13 +81,9 @@ public class BibliotecaGUI extends JFrame {
         JMenuItem menuRemoverLivro = new JMenuItem("Remover Livro");
         menuRemoverLivro.addActionListener(
                 (ae) -> {
-                    String codLivro = JOptionPane.showInputDialog(this, "Informe o código do titulo a ser removido:");
-                    boolean removido = sistemaBibliotecaFacade.removerLivro(codLivro);
-                    if (removido) {
-                        JOptionPane.showMessageDialog(this, "Livro removido com sucesso.");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Não foi encontrado nenhum livro com esse código.");
-                    }
+                   String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
+                   Emprestimo emprestimo = sistemaBibliotecaFacade.pesquisarEmprestimo(matricula);
+                     JOptionPane.showMessageDialog(this, emprestimo.toString());
                 }
         );
 
@@ -109,8 +110,16 @@ public class BibliotecaGUI extends JFrame {
     }
 
     public static void main(String[] args) {
+        SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
+        sistemaBiblioteca.lerEmprestimos();
         JFrame janela = new BibliotecaGUI();
         janela.setVisible(true);
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        WindowListener fechadorDeJanela = new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                sistemaBiblioteca.gravarEmprestimos();
+                System.exit(0);
+            }
+        };
+        janela.addWindowListener(fechadorDeJanela);
     }
 }

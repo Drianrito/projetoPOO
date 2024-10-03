@@ -44,4 +44,8 @@ public class BibliotecaFacade {
     public boolean removerLivro(String codLivro) {
         return sistemaBiblioteca.removerLivro(codLivro);
     }
+
+    public Emprestimo pesquisarEmprestimo(String matricula) {
+        return sistemaBiblioteca.pesquisarEmprestimo(matricula);
+    }
 }

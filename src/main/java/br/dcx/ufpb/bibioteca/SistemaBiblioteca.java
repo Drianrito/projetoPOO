@@ -2,7 +2,9 @@ package br.dcx.ufpb.bibioteca;
 
 import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
 import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.gravador.GravaDados;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private HashMap<String, Livro> livros = new HashMap<>();
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Emprestimo> emprestimos = new ArrayList<>();
+    private GravaDados gravador = new GravaDados();
 
     public boolean cadastrarLivro(String titulo, String autor, String codLivro) throws LivroJaExisteException {
         if (!this.livros.containsKey(codLivro)) {
@@ -52,6 +55,33 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     public void realizarEmprestimo(String matricula, String tituloLivro, String dataEmprestimo, String dataDevolucao) {
         Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
         this.emprestimos.add(emprestimo);
+    }
+    public Emprestimo pesquisarEmprestimo(String matricula){
+        for (Emprestimo emprestimo: this.emprestimos){
+            if (emprestimo.getMatricula().equals(matricula)){
+                return emprestimo;
+            }
+        }
+        return null;
+    }
+
+    public void lerEmprestimos(){
+        try {
+            this.emprestimos = gravador.leEmprestimos();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void  gravarEmprestimos(){
+        try {
+            gravador.gravarEmprestimos(this.emprestimos);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
     }
 }
 
