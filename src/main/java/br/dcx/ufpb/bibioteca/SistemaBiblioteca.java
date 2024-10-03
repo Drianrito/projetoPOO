@@ -34,7 +34,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     public Collection<Livro> buscarLivroPorTitulo(String titulo) {
-        return this.livros.values().stream().filter(livro -> livro.getTitulo().equals(titulo)).toList();
+        return this.livros.values().stream().filter(livro -> livro.getTitulo().startsWith(titulo)).toList();
     }
 
     public boolean removerLivro(String codLivro) {
@@ -49,12 +49,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         this.emprestimos.add(emprestimo);
     }
     public Emprestimo pesquisarEmprestimo(String matricula){
-        for (Emprestimo emprestimo: this.emprestimos){
-            if (emprestimo.getMatricula().equals(matricula)){
-                return emprestimo;
-            }
-        }
-        return null;
+        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
     }
 
     public void lerEmprestimos(){
@@ -70,6 +65,10 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
     }
 }
 
