@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.List;
 
 public class GravaDados {
+
+    // Metodo de ler o arquivo dat e retornar uma lista de emprestimos
     public List<Emprestimo> leEmprestimos() throws IOException {
         ObjectInputStream in = null;
         try {
