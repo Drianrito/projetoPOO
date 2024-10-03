@@ -5,9 +5,7 @@ import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
 import br.dcx.ufpb.bibioteca.gravador.GravaDados;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private HashMap<String, Livro> livros = new HashMap<>();
@@ -35,14 +33,8 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         }
     }
 
-    public Livro buscarLivroPorTitulo(String titulo) {
-        Livro livroBuscado = new Livro();
-        for (Livro livro: this.livros.values()) {
-            if (livro.getTitulo().equals(titulo)) {
-                livroBuscado = livro;
-            }
-        }
-        return livroBuscado;
+    public Collection<Livro> buscarLivroPorTitulo(String titulo) {
+        return this.livros.values().stream().filter(livro -> livro.getTitulo().equals(titulo)).toList();
     }
 
     public boolean removerLivro(String codLivro) {
@@ -78,10 +70,6 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         }catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public List<Emprestimo> getEmprestimos() {
-        return emprestimos;
     }
 }
 
