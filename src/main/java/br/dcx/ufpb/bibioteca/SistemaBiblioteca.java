@@ -2,15 +2,16 @@ package br.dcx.ufpb.bibioteca;
 
 import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
 import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.gravador.GravaDados;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private HashMap<String, Livro> livros = new HashMap<>();
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Emprestimo> emprestimos = new ArrayList<>();
+    private GravaDados gravador = new GravaDados();
 
     public boolean cadastrarLivro(String titulo, String autor, String codLivro) throws LivroJaExisteException {
         if (!this.livros.containsKey(codLivro)) {
@@ -32,14 +33,8 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         }
     }
 
-    public Livro buscarLivroPorTitulo(String titulo) {
-        Livro livroBuscado = new Livro();
-        for (Livro livro: this.livros.values()) {
-            if (livro.getTitulo().equals(titulo)) {
-                livroBuscado = livro;
-            }
-        }
-        return livroBuscado;
+    public Collection<Livro> buscarLivroPorTitulo(String titulo) {
+        return this.livros.values().stream().filter(livro -> livro.getTitulo().startsWith(titulo)).toList();
     }
 
     public boolean removerLivro(String codLivro) {
@@ -52,6 +47,28 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     public void realizarEmprestimo(String matricula, String tituloLivro, String dataEmprestimo, String dataDevolucao) {
         Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
         this.emprestimos.add(emprestimo);
+    }
+    public Emprestimo pesquisarEmprestimo(String matricula){
+        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
+    }
+
+    public void lerEmprestimos(){
+        try {
+            this.emprestimos = gravador.leEmprestimos();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void  gravarEmprestimos(){
+        try {
+            gravador.gravarEmprestimos(this.emprestimos);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
     }
 }
 

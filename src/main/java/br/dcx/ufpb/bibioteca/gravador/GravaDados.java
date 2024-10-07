@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.List;
 
 public class GravaDados {
+
     public List<Emprestimo> leEmprestimos() throws IOException {
         ObjectInputStream in = null;
         try {
