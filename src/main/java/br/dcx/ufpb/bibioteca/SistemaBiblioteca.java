@@ -1,5 +1,6 @@
 package br.dcx.ufpb.bibioteca;
 
+
 import br.dcx.ufpb.bibioteca.exception.*;
 
 import java.io.IOException;
@@ -8,10 +9,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
+import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.gravador.GravaDados;
+
+import java.io.IOException;
+import java.util.*;
+
 public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private HashMap<String, Livro> livros = new HashMap<>();
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Emprestimo> emprestimos = new ArrayList<>();
+    private GravaDados gravador = new GravaDados();
 
     public boolean cadastrarLivro(String titulo, GeneroLivro generoLivro, String autor, String codLivro) throws LivroJaExisteException {
         if (!this.livros.containsKey(codLivro)) {
@@ -37,6 +46,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         return this.livros.values().stream().filter(livro -> livro.getTitulo().startsWith(titulo)).toList();
     }
 
+
     public Collection<Livro> buscarLivrosPorGenero(GeneroLivro generoLivro) {
         Collection<Livro> livrosPorGenero = new ArrayList<>();
         for (Livro livro: this.livros.values()) {
@@ -45,16 +55,6 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
             }
         } return livrosPorGenero;
     }
-
-    /*public Livro buscarLivroPorTitulo(String titulo) {
-         Livro livroBuscado = new Livro();
-        for (Livro livro: this.livros.values()) {
-            if (livro.getTitulo().equals(titulo)) {
-                livroBuscado = livro;
-            }
-        }
-        return livroBuscado;
-    }*/
 
     public boolean removerLivro(String codLivro) throws LivroNaoExisteException {
         if (this.livros.containsKey(codLivro)) {
@@ -69,6 +69,31 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, periodoEmprestimo);
         this.emprestimos.add(emprestimo);
     }
+
+    public Emprestimo pesquisarEmprestimo(String matricula){
+        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
+    }
+
+    public void lerEmprestimos(){
+        try {
+            this.emprestimos = gravador.leEmprestimos();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public void  gravarEmprestimos(){
+        try {
+            gravador.gravarEmprestimos(this.emprestimos);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+}
+
 
     public Emprestimo pesquisarEmprestimoPorMatricula(String matricula) throws MatriculaNaoEncontradaException {
         return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElseThrow(() -> new MatriculaNaoEncontradaException("Matrícula informada não encontrada."));

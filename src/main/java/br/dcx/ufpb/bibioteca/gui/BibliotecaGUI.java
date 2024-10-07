@@ -1,15 +1,25 @@
 package br.dcx.ufpb.bibioteca.gui;
 
+
+import br.dcx.ufpb.bibioteca.Emprestimo;
+
 import br.dcx.ufpb.bibioteca.Livro;
+import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
+import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
+import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.Collection;
 
 public class BibliotecaGUI extends JFrame {
 
     JLabel linha1, linha2;
     ImageIcon biblioteca = new ImageIcon("./imagens/biblioteca.jpg");
-    BibliotecaFacade sistemaBibliotecaFacade = new BibliotecaFacade();
+    SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
     JMenuBar barraDeMenu = new JMenuBar();
 
     public BibliotecaGUI() {
@@ -31,11 +41,16 @@ public class BibliotecaGUI extends JFrame {
 
         JMenuItem menuCadastraLivro = new JMenuItem("Cadastrar Livro");
         menuCadastraLivro.addActionListener(
-                (ae) -> {
+                (actionEvent) -> {
                     String tituloLivro = JOptionPane.showInputDialog(this, "Qual o título do livro?");
                     String autor = JOptionPane.showInputDialog(this, "Qual o nome do autor?");
                     String codLivro = JOptionPane.showInputDialog(this, "Qual o código do livro?");
-                    boolean cadastrou = sistemaBibliotecaFacade.cadastrarLivro(tituloLivro, autor, codLivro);
+                    boolean cadastrou = false;
+                    try {
+                        cadastrou = sistemaBiblioteca.cadastrarLivro(tituloLivro, autor, codLivro);
+                    } catch (LivroJaExisteException e) {
+                        throw new RuntimeException(e);
+                    }
                     if (cadastrou) {
                         JOptionPane.showMessageDialog(this, "Livro cadastrado no sistema.");
                     } else {
@@ -50,7 +65,12 @@ public class BibliotecaGUI extends JFrame {
                     String nome = JOptionPane.showInputDialog(this, "Qual o nome do usuário?");
                     String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
                     String email = JOptionPane.showInputDialog(this, "Qual o e-mail do usuário?");
-                    boolean cadastrou = sistemaBibliotecaFacade.cadastrarUsuario(nome, matricula, email);
+                    boolean cadastrou = false;
+                    try {
+                        cadastrou = sistemaBiblioteca.cadastrarUsuario(nome, matricula, email);
+                    } catch (UsuarioJaExisteException e) {
+                        throw new RuntimeException(e);
+                    }
                     if (cadastrou) {
                         JOptionPane.showMessageDialog(this, "Usuário cadastrado no sistema.");
                     } else {
@@ -63,7 +83,7 @@ public class BibliotecaGUI extends JFrame {
         menuBuscarLivroPorTitulo.addActionListener(
                 (ae) -> {
                     String tituloBusca = JOptionPane.showInputDialog(this, "Informe o nome do titulo a pesquisar:");
-                    Livro livroBusca = sistemaBibliotecaFacade.buscarLivroPorTitulo(tituloBusca);
+                    Collection<Livro> livroBusca = sistemaBiblioteca.buscarLivroPorTitulo(tituloBusca);
                     if (livroBusca != null) {
                         JOptionPane.showMessageDialog(this, livroBusca.toString());
                     } else {
@@ -75,13 +95,9 @@ public class BibliotecaGUI extends JFrame {
         JMenuItem menuRemoverLivro = new JMenuItem("Remover Livro");
         menuRemoverLivro.addActionListener(
                 (ae) -> {
-                    String codLivro = JOptionPane.showInputDialog(this, "Informe o código do titulo a ser removido:");
-                    boolean removido = sistemaBibliotecaFacade.removerLivro(codLivro);
-                    if (removido) {
-                        JOptionPane.showMessageDialog(this, "Livro removido com sucesso.");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Não foi encontrado nenhum livro com esse código.");
-                    }
+                   String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
+                   Emprestimo emprestimo = sistemaBiblioteca.pesquisarEmprestimo(matricula);
+                     JOptionPane.showMessageDialog(this, emprestimo.toString());
                 }
         );
 
@@ -92,7 +108,7 @@ public class BibliotecaGUI extends JFrame {
                     String tituloLivro = JOptionPane.showInputDialog(this, "Qual o título do usuário?");
                     String dataEmprestimo = JOptionPane.showInputDialog(this, "Qual a data do empréstimo?");
                     String dataDevolucao = JOptionPane.showInputDialog(this, "Qual o nome a data de devolução?");
-                    sistemaBibliotecaFacade.realizarEmprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
+                    sistemaBiblioteca.realizarEmprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
                     JOptionPane.showMessageDialog(this, "Empréstimo realizado.");
                 }
         );
@@ -108,8 +124,16 @@ public class BibliotecaGUI extends JFrame {
     }
 
     public static void main(String[] args) {
+        SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
+        sistemaBiblioteca.lerEmprestimos();
         JFrame janela = new BibliotecaGUI();
         janela.setVisible(true);
-        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        WindowListener fechadorDeJanela = new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                sistemaBiblioteca.gravarEmprestimos();
+                System.exit(0);
+            }
+        };
+        janela.addWindowListener(fechadorDeJanela);
     }
 }

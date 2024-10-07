@@ -41,4 +41,18 @@ public class Emprestimo implements Serializable {
     public void setPeriodoEmprestimo(PeriodoEmprestimo periodoEmprestimo) {
         this.periodoEmprestimo = periodoEmprestimo;
     }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    @Override
+    public String toString() {
+        return "Emprestimo{" +
+                "matricula='" + matricula + '\'' +
+                ", tituloLivro='" + tituloLivro + '\'' +
+                ", dataEmprestimo='" + dataEmprestimo + '\'' +
+                ", dataDevolucao='" + dataDevolucao + '\'' +
+                '}';
+    }
 }
