@@ -1,15 +1,29 @@
 package br.dcx.ufpb.bibioteca;
 
-import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
-import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.exception.*;
+
+import java.io.IOException;
+import java.util.Collection;
 
 import java.util.Collection;
 
 public interface SistemaInterfaceBiblioteca {
+
+    public boolean cadastrarLivro(String titulo, GeneroLivro generoLivro, String autor, String codLivro) throws LivroJaExisteException;
+    public boolean cadastrarUsuario(String nome, String matricula, String email) throws UsuarioJaExisteException;
+    //public Livro buscarLivroPorTitulo(String titulo);
+    public Collection<Livro> buscarLivroPorTitulo(String titulo);
+    public Collection<Livro> buscarLivrosPorGenero(GeneroLivro genero);
+    public boolean removerLivro(String codLivro) throws LivroNaoExisteException;
+    public void realizarEmprestimo(String matricula, String tituloLivro, PeriodoEmprestimo periodoEmprestimo);
+    public Emprestimo pesquisarEmprestimoPorMatricula(String matricula) throws MatriculaNaoEncontradaException;
+    public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException;
+
     boolean cadastrarLivro(String titulo, String autor, String codLivro) throws LivroJaExisteException;
     boolean cadastrarUsuario(String nome, String matricula, String email) throws UsuarioJaExisteException;
     Collection<Livro> buscarLivroPorTitulo(String titulo);
     boolean removerLivro(String codLivro);
     void realizarEmprestimo(String matricula, String tituloLivro, String dataEmprestimo, String dataDevolucao);
+
 }
 
