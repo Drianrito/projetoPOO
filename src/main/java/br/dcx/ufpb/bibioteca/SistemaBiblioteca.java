@@ -70,7 +70,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         this.emprestimos.add(emprestimo);
     }
 
-    public Emprestimo pesquisarEmprestimo(String matricula){
+    public Emprestimo pesquisarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{
         return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
     }
 
@@ -92,13 +92,6 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     public List<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
-}
-
-
-    public Emprestimo pesquisarEmprestimoPorMatricula(String matricula) throws MatriculaNaoEncontradaException {
-        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElseThrow(() -> new MatriculaNaoEncontradaException("Matrícula informada não encontrada."));
-    }
-
     public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
         Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();
         if (mes < 1 || mes > 12) {
@@ -111,3 +104,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         } return emprestimosRealizadosNoMes;
     }
 }
+
+
+
+
