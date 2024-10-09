@@ -18,12 +18,7 @@ public interface SistemaInterfaceBiblioteca {
     public void realizarEmprestimo(String matricula, String tituloLivro, PeriodoEmprestimo periodoEmprestimo);
     public Emprestimo pesquisarEmprestimoPorMatricula(String matricula) throws MatriculaNaoEncontradaException;
     public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException;
-
-    boolean cadastrarLivro(String titulo, String autor, String codLivro) throws LivroJaExisteException;
-    boolean cadastrarUsuario(String nome, String matricula, String email) throws UsuarioJaExisteException;
-    Collection<Livro> buscarLivroPorTitulo(String titulo);
-    boolean removerLivro(String codLivro);
-    void realizarEmprestimo(String matricula, String tituloLivro, String dataEmprestimo, String dataDevolucao);
+    ;
 
 }
 

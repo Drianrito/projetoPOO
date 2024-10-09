@@ -18,7 +18,7 @@ public class Emprestimo implements Serializable {
         this(null, null, null);
     }
 
-    public String getMatricula() {
+    public String getUsuario() {
         return matricula;
     }
 
@@ -51,8 +51,8 @@ public class Emprestimo implements Serializable {
         return "Emprestimo{" +
                 "matricula='" + matricula + '\'' +
                 ", tituloLivro='" + tituloLivro + '\'' +
-                ", dataEmprestimo='" + dataEmprestimo + '\'' +
-                ", dataDevolucao='" + dataDevolucao + '\'' +
+                ", dataEmprestimo='" + getPeriodoEmprestimo().getDataEmprestimo() + '\'' +
+                ", dataDevolucao='" + getPeriodoEmprestimo().getDataDevolucao() + '\'' +
                 '}';
     }
 }
