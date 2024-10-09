@@ -5,11 +5,11 @@ import br.dcx.ufpb.bibioteca.exception.LivroNaoExisteException;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class BibliotecaRemoveLivroController implements ActionListener {
+public class BiblioRemoveLivroController implements ActionListener {
     private SistemaBiblioteca sistema;
     private JFrame janelaPrincipal;
 
-    public BibliotecaRemoveLivroController(SistemaBiblioteca sistema, JFrame janela) {
+    public BiblioRemoveLivroController(SistemaBiblioteca sistema, JFrame janela) {
         this.sistema = sistema;
         this.janelaPrincipal = janela;
     }

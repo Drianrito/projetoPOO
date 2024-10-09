@@ -6,11 +6,11 @@ import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class BibliotecaCadUsuarioController implements ActionListener {
+public class BiblioCadUsuarioController implements ActionListener {
     private SistemaBiblioteca sistema;
     private JFrame janelaPrincipal;
 
-    public BibliotecaCadUsuarioController(SistemaBiblioteca sistema, JFrame janela) {
+    public BiblioCadUsuarioController(SistemaBiblioteca sistema, JFrame janela) {
         this.sistema = sistema;
         this.janelaPrincipal = janela;
     }
