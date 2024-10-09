@@ -2,19 +2,14 @@ package br.dcx.ufpb.bibioteca.gui;
 
 
 import br.dcx.ufpb.bibioteca.Controllers.*;
-import br.dcx.ufpb.bibioteca.Emprestimo;
 
-import br.dcx.ufpb.bibioteca.Livro;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
-import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
-import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Collection;
 
 public class BibliotecaGUI extends JFrame {
 
@@ -37,32 +32,45 @@ public class BibliotecaGUI extends JFrame {
         add(linha1);
         add(linha2);
         add(new JLabel());
-        JMenu menuCadastramento = new JMenu("Sistema de Cadastramento");
-        JMenu menuGerenciamento = new JMenu("Sistema de Gerenciamento");
+        JMenu menuCadastrar = new JMenu("Cadastrar");
+        JMenu menuBuscar = new JMenu("Buscar");
+        JMenu menuRemover = new JMenu("Remover");
+        JMenu menuEmprestimo = new JMenu("Empréstimo");
 
     JMenuItem menuCadLivro = new JMenuItem("Cadastrar Livro");
-        menuCadastramento.add(menuCadLivro);
+        menuCadastrar.add(menuCadLivro);
 
         JMenuItem menuCadUsuario =  new JMenuItem("Cadastrar Usuário");
-        menuCadastramento.add(menuCadUsuario);
+       menuCadastrar.add(menuCadUsuario);
 
-        JMenuItem menuBuscarLivroPorTitulo = new JMenuItem("Pesquisar Livro Por Título");
-        menuGerenciamento.add(menuBuscarLivroPorTitulo);
+        JMenuItem menuBuscarLivroPorTitulo = new JMenuItem("Buscar Livro Por Título");
+        menuBuscar.add(menuBuscarLivroPorTitulo);
 
 
         JMenuItem menuRemoverLivro = new JMenuItem("Remover Livro");
-       menuGerenciamento.add(menuRemoverLivro);
+       menuRemover.add(menuRemoverLivro);
 
         JMenuItem menuRealizarEmprestimo = new JMenuItem("Realizar Empréstimo");
-        menuGerenciamento.add(menuRealizarEmprestimo);
+        menuEmprestimo.add(menuRealizarEmprestimo);
 
-        menuCadLivro.addActionListener(new BibliotecaCadLivroController(sistema, this));
-        menuCadUsuario.addActionListener(new BibliotecaCadUsuarioController(sistema, this));
-        menuBuscarLivroPorTitulo.addActionListener(new BibliotecaBuscarLivroController(sistema, this));
-        menuRemoverLivro.addActionListener(new BibliotecaRemoveLivroController(sistema, this));
-        menuRealizarEmprestimo.addActionListener(new BibliotecaRealizaEmpController(sistema, this));
-        barraDeMenu.add(menuCadastramento);
-        barraDeMenu.add(menuGerenciamento);
+        JMenuItem menuBuscarLivroPorGenero = new JMenuItem("Buscar Livros Por Gênero");
+        menuBuscar.add(menuBuscarLivroPorGenero);
+
+        JMenuItem menuBuscarEmprestimoPorMes = new JMenuItem("Buscar Empréstimo Por Mês");
+        menuEmprestimo.add(menuBuscarEmprestimoPorMes);
+
+
+        menuCadLivro.addActionListener(new BiblioCadLivroController(sistema, this));
+        menuCadUsuario.addActionListener(new BiblioCadUsuarioController(sistema, this));
+        menuBuscarLivroPorTitulo.addActionListener(new BiblioBuscarLivroPorTituloController(sistema, this));
+        menuRemoverLivro.addActionListener(new BiblioRemoveLivroController(sistema, this));
+        menuRealizarEmprestimo.addActionListener(new BiblioRealizaEmpController(sistema, this));
+        menuBuscarLivroPorGenero.addActionListener(new BiblioBuscarLivrosPorGeneroController(sistema, this));
+        menuBuscarEmprestimoPorMes.addActionListener(new BiblioBuscarEmpMesController(sistema, this));
+        barraDeMenu.add(menuEmprestimo);
+        barraDeMenu.add(menuCadastrar);
+        barraDeMenu.add(menuBuscar);
+        barraDeMenu.add(menuRemover);
         setJMenuBar(barraDeMenu);
     }
 

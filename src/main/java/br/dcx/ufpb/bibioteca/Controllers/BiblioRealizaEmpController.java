@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 
-public class BibliotecaRealizaEmpController implements ActionListener {
+public class BiblioRealizaEmpController implements ActionListener {
     private SistemaBiblioteca sistema;
     private JFrame janelaPrincipal;
 
-    public BibliotecaRealizaEmpController(SistemaBiblioteca sistema, JFrame janela) {
+    public BiblioRealizaEmpController(SistemaBiblioteca sistema, JFrame janela) {
         this.sistema = sistema;
         this.janelaPrincipal = janela;
     }

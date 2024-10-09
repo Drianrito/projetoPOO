@@ -70,9 +70,24 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         this.emprestimos.add(emprestimo);
     }
 
-    public Emprestimo pesquisarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{
+    public Emprestimo buscarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{ // TODO: atualizar método para retornar uma lista
         return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
     }
+
+    public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
+        Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();
+        if (mes < 1 || mes > 12) {
+            throw new MesInformadoNaoExisteException("O mês digitado não existe.");
+        }
+        for (Emprestimo emp: this.emprestimos) {
+            if (emp.getPeriodoEmprestimo().getDataEmprestimo().getMonthValue() == mes) {
+                emprestimosRealizadosNoMes.add(emp);
+            }
+        } return emprestimosRealizadosNoMes;
+    }
+
+
+// GRAVA DADOS
 
     public void lerEmprestimos(){
         try {
@@ -88,21 +103,10 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
             e.printStackTrace();
         }
     }
-
     public List<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
-    public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
-        Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();
-        if (mes < 1 || mes > 12) {
-            throw new MesInformadoNaoExisteException("O mês digitado não existe.");
-        }
-        for (Emprestimo emp: this.emprestimos) {
-            if (emp.getPeriodoEmprestimo().getDataEmprestimo().getMonthValue() == mes) {
-                emprestimosRealizadosNoMes.add(emp);
-            }
-        } return emprestimosRealizadosNoMes;
-    }
+
 }
 
 
