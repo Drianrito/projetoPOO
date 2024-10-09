@@ -1,6 +1,7 @@
 package br.dcx.ufpb.bibioteca.gui;
 
 
+import br.dcx.ufpb.bibioteca.Controllers.*;
 import br.dcx.ufpb.bibioteca.Emprestimo;
 
 import br.dcx.ufpb.bibioteca.Livro;
@@ -19,7 +20,7 @@ public class BibliotecaGUI extends JFrame {
 
     JLabel linha1, linha2;
     ImageIcon biblioteca = new ImageIcon("./imagens/biblioteca.jpg");
-    SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
+    SistemaBiblioteca sistema = new SistemaBiblioteca();
     JMenuBar barraDeMenu = new JMenuBar();
 
     public BibliotecaGUI() {
@@ -39,98 +40,40 @@ public class BibliotecaGUI extends JFrame {
         JMenu menuCadastramento = new JMenu("Sistema de Cadastramento");
         JMenu menuGerenciamento = new JMenu("Sistema de Gerenciamento");
 
-        JMenuItem menuCadastraLivro = new JMenuItem("Cadastrar Livro");
-        menuCadastraLivro.addActionListener(
-                (actionEvent) -> {
-                    String tituloLivro = JOptionPane.showInputDialog(this, "Qual o título do livro?");
-                    String autor = JOptionPane.showInputDialog(this, "Qual o nome do autor?");
-                    String codLivro = JOptionPane.showInputDialog(this, "Qual o código do livro?");
-                    boolean cadastrou = false;
-                    try {
-                        cadastrou = sistemaBiblioteca.cadastrarLivro(tituloLivro, autor, codLivro);
-                    } catch (LivroJaExisteException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (cadastrou) {
-                        JOptionPane.showMessageDialog(this, "Livro cadastrado no sistema.");
-                    } else {
-                            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao tentar cadastrar.");
-                    }
-                }
-        );
+    JMenuItem menuCadLivro = new JMenuItem("Cadastrar Livro");
+        menuCadastramento.add(menuCadLivro);
 
-        JMenuItem menuCadastraUsuario = new JMenuItem("Cadastrar Usuario");
-        menuCadastraUsuario.addActionListener(
-                (ae) -> {
-                    String nome = JOptionPane.showInputDialog(this, "Qual o nome do usuário?");
-                    String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
-                    String email = JOptionPane.showInputDialog(this, "Qual o e-mail do usuário?");
-                    boolean cadastrou = false;
-                    try {
-                        cadastrou = sistemaBiblioteca.cadastrarUsuario(nome, matricula, email);
-                    } catch (UsuarioJaExisteException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (cadastrou) {
-                        JOptionPane.showMessageDialog(this, "Usuário cadastrado no sistema.");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Ocorreu um erro ao tentar cadastrar.");
-                    }
-                }
-        );
+        JMenuItem menuCadUsuario =  new JMenuItem("Cadastrar Usuário");
+        menuCadastramento.add(menuCadUsuario);
 
         JMenuItem menuBuscarLivroPorTitulo = new JMenuItem("Pesquisar Livro Por Título");
-        menuBuscarLivroPorTitulo.addActionListener(
-                (ae) -> {
-                    String tituloBusca = JOptionPane.showInputDialog(this, "Informe o nome do titulo a pesquisar:");
-                    Collection<Livro> livroBusca = sistemaBiblioteca.buscarLivroPorTitulo(tituloBusca);
-                    if (livroBusca != null) {
-                        JOptionPane.showMessageDialog(this, livroBusca.toString());
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Não foi encontrado nenhum livro com esse título.");
-                    }
-                }
-        );
+        menuGerenciamento.add(menuBuscarLivroPorTitulo);
+
 
         JMenuItem menuRemoverLivro = new JMenuItem("Remover Livro");
-        menuRemoverLivro.addActionListener(
-                (ae) -> {
-                   String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
-                   Emprestimo emprestimo = sistemaBiblioteca.pesquisarEmprestimo(matricula);
-                     JOptionPane.showMessageDialog(this, emprestimo.toString());
-                }
-        );
+       menuGerenciamento.add(menuRemoverLivro);
 
         JMenuItem menuRealizarEmprestimo = new JMenuItem("Realizar Empréstimo");
-        menuRealizarEmprestimo.addActionListener(
-                (ae) -> {
-                    String matricula = JOptionPane.showInputDialog(this, "Qual a matrícula do usuário?");
-                    String tituloLivro = JOptionPane.showInputDialog(this, "Qual o título do usuário?");
-                    String dataEmprestimo = JOptionPane.showInputDialog(this, "Qual a data do empréstimo?");
-                    String dataDevolucao = JOptionPane.showInputDialog(this, "Qual o nome a data de devolução?");
-                    sistemaBiblioteca.realizarEmprestimo(matricula, tituloLivro, dataEmprestimo, dataDevolucao);
-                    JOptionPane.showMessageDialog(this, "Empréstimo realizado.");
-                }
-        );
-
-        menuCadastramento.add(menuCadastraLivro);
-        menuCadastramento.add(menuCadastraUsuario);
-        menuGerenciamento.add(menuBuscarLivroPorTitulo);
-        menuGerenciamento.add(menuRemoverLivro);
         menuGerenciamento.add(menuRealizarEmprestimo);
+
+        menuCadLivro.addActionListener(new BibliotecaCadLivroController(sistema, this));
+        menuCadUsuario.addActionListener(new BibliotecaCadUsuarioController(sistema, this));
+        menuBuscarLivroPorTitulo.addActionListener(new BibliotecaBuscarLivroController(sistema, this));
+        menuRemoverLivro.addActionListener(new BibliotecaRemoveLivroController(sistema, this));
+        menuRealizarEmprestimo.addActionListener(new BibliotecaRealizaEmpController(sistema, this));
         barraDeMenu.add(menuCadastramento);
         barraDeMenu.add(menuGerenciamento);
         setJMenuBar(barraDeMenu);
     }
 
     public static void main(String[] args) {
-        SistemaBiblioteca sistemaBiblioteca = new SistemaBiblioteca();
-        sistemaBiblioteca.lerEmprestimos();
+        SistemaBiblioteca sistema = new SistemaBiblioteca();
+        sistema.lerEmprestimos();
         JFrame janela = new BibliotecaGUI();
         janela.setVisible(true);
         WindowListener fechadorDeJanela = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                sistemaBiblioteca.gravarEmprestimos();
+                sistema.gravarEmprestimos();
                 System.exit(0);
             }
         };
