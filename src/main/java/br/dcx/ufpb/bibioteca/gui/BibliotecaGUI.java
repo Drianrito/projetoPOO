@@ -73,18 +73,4 @@ public class BibliotecaGUI extends JFrame {
         barraDeMenu.add(menuRemover);
         setJMenuBar(barraDeMenu);
     }
-
-    public static void main(String[] args) {
-        SistemaBiblioteca sistema = new SistemaBiblioteca();
-        sistema.lerEmprestimos();
-        JFrame janela = new BibliotecaGUI();
-        janela.setVisible(true);
-        WindowListener fechadorDeJanela = new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                sistema.gravarEmprestimos();
-                System.exit(0);
-            }
-        };
-        janela.addWindowListener(fechadorDeJanela);
-    }
 }
