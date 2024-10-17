@@ -1,5 +1,6 @@
 PROJETO DE POO
 
+<img src="./imgs/biblioteca.png">
 Funções do sistema: 
 
 1. Cadastrar um novo usuário
