@@ -1,90 +1,104 @@
 package br.dcx.ufpb.bibioteca.gui;
 
-
-import br.dcx.ufpb.bibioteca.Controllers.*;
-
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class BibliotecaGUI extends JFrame {
-
-    JLabel linha1, linha2;
-    ImageIcon biblioteca = new ImageIcon("./imagens/biblioteca.jpg");
+    JLabel linha1;
+    ImageIcon ilustracaoBibliotecaRS;
     SistemaBiblioteca sistema = new SistemaBiblioteca();
-    JMenuBar barraDeMenu = new JMenuBar();
+    BufferedImage imagemOriginal;
 
     public BibliotecaGUI() {
         setTitle("Sistema Biblioteca");
-        setSize(800, 900);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(150, 150);
         setResizable(true);
-        setBackground(Color.LIGHT_GRAY);
-        linha1 = new JLabel("Biblioteca Acumulando Conhecimentos", JLabel.CENTER);
-        linha1.setForeground(Color.red);
-        linha1.setFont(new Font("Serif", Font.BOLD, 24));
-        linha2 = new JLabel(biblioteca, JLabel.CENTER);
-        setLayout(new GridLayout(3, 1));
-        add(linha1);
-        add(linha2);
-        add(new JLabel());
-        JMenu menuCadastrar = new JMenu("Cadastrar");
-        JMenu menuBuscar = new JMenu("Buscar");
-        JMenu menuRemover = new JMenu("Remover");
-        JMenu menuEmprestimo = new JMenu("Empréstimo");
+        setBackground(Color.WHITE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    JMenuItem menuCadLivro = new JMenuItem("Cadastrar Livro");
-        menuCadastrar.add(menuCadLivro);
+        getContentPane().setLayout(new BorderLayout());
 
-        JMenuItem menuCadUsuario =  new JMenuItem("Cadastrar Usuário");
-       menuCadastrar.add(menuCadUsuario);
+        String caminhoParaImagem = "./imgs/biblioteca.png";
+        try {
+            imagemOriginal = ImageIO.read(new File(caminhoParaImagem));
+        } catch (IOException e) {
+            System.err.println("Não foi possível carregar a imagem: " + e.getMessage());
+            linha1 = new JLabel("Não foi possível carregar a imagem", JLabel.CENTER);
+        }
 
-        JMenuItem menuBuscarLivroPorTitulo = new JMenuItem("Buscar Livro Por Título");
-        menuBuscar.add(menuBuscarLivroPorTitulo);
+        JPanel painelCentral = new JPanel(new BorderLayout());
+        painelCentral.setBackground(Color.WHITE);
 
+        linha1 = new JLabel("", JLabel.CENTER);
+        painelCentral.add(linha1, BorderLayout.CENTER);
+        getContentPane().add(painelCentral, BorderLayout.CENTER);
 
-        JMenuItem menuRemoverLivro = new JMenuItem("Remover Livro");
-       menuRemover.add(menuRemoverLivro);
+        JPanel painelDeBotoes = new JPanel();
+        painelDeBotoes.setBackground(new Color(254, 239, 159));
+        painelDeBotoes.setLayout(new FlowLayout());
 
-        JMenuItem menuRealizarEmprestimo = new JMenuItem("Realizar Empréstimo");
-        menuEmprestimo.add(menuRealizarEmprestimo);
+        JButton botaoEmprestimos = new JButton("Gerenciar Empréstimos");
+        JButton botaoLivros = new JButton("Gerenciar Livros");
+        JButton botaoUsuarios = new JButton("Gerenciar Usuários");
 
-        JMenuItem menuBuscarLivroPorGenero = new JMenuItem("Buscar Livros Por Gênero");
-        menuBuscar.add(menuBuscarLivroPorGenero);
-
-        JMenuItem menuBuscarEmprestimoPorMes = new JMenuItem("Buscar Empréstimo Por Mês");
-        menuEmprestimo.add(menuBuscarEmprestimoPorMes);
+        botaoEmprestimos.addActionListener(e -> {
+            GerenciarEmprestimosGUI emprestimosGUI = new GerenciarEmprestimosGUI();
+            dispose();
+            emprestimosGUI.setVisible(true);
+        });
 
 
-        menuCadLivro.addActionListener(new BiblioCadLivroController(sistema, this));
-        menuCadUsuario.addActionListener(new BiblioCadUsuarioController(sistema, this));
-        menuBuscarLivroPorTitulo.addActionListener(new BiblioBuscarLivroPorTituloController(sistema, this));
-        menuRemoverLivro.addActionListener(new BiblioRemoveLivroController(sistema, this));
-        menuRealizarEmprestimo.addActionListener(new BiblioRealizaEmpController(sistema, this));
-        menuBuscarLivroPorGenero.addActionListener(new BiblioBuscarLivrosPorGeneroController(sistema, this));
-        menuBuscarEmprestimoPorMes.addActionListener(new BiblioBuscarEmpMesController(sistema, this));
-        barraDeMenu.add(menuEmprestimo);
-        barraDeMenu.add(menuCadastrar);
-        barraDeMenu.add(menuBuscar);
-        barraDeMenu.add(menuRemover);
-        setJMenuBar(barraDeMenu);
+        botaoLivros.addActionListener(e -> {
+            GerenciarLivrosGUI livrosGUI = new GerenciarLivrosGUI();
+            dispose();
+            livrosGUI.setVisible(true);
+        });
+
+        botaoUsuarios.addActionListener(e -> {
+            GerenciarUsuariosGUI usuariosGUI = new GerenciarUsuariosGUI();
+            dispose();
+            usuariosGUI.setVisible(true);
+        });
+
+        painelDeBotoes.add(botaoEmprestimos);
+        painelDeBotoes.add(botaoLivros);
+        painelDeBotoes.add(botaoUsuarios);
+
+        getContentPane().add(painelDeBotoes, BorderLayout.NORTH);
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                redimensionarImagem();
+            }
+        });
+
+        setVisible(true);
+        validate();
+        redimensionarImagem();
     }
 
-    public static void main(String[] args) {
-        SistemaBiblioteca sistema = new SistemaBiblioteca();
-        sistema.lerEmprestimos();
-        JFrame janela = new BibliotecaGUI();
-        janela.setVisible(true);
-        WindowListener fechadorDeJanela = new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                sistema.gravarEmprestimos();
-                System.exit(0);
+    private void redimensionarImagem() {
+        if (imagemOriginal != null) {
+            int largura = getWidth();
+            int altura = getHeight();
+
+            if (largura > 0 && altura > 0) {
+                Image imagemRedimensionada = imagemOriginal.getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
+                ilustracaoBibliotecaRS = new ImageIcon(imagemRedimensionada);
+
+                linha1.setIcon(ilustracaoBibliotecaRS);
             }
-        };
-        janela.addWindowListener(fechadorDeJanela);
+        }
     }
 }
