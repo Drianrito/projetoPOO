@@ -12,6 +12,7 @@ public class GerenciarUsuariosGUI extends JFrame {
     ImageIcon iconeCadastrarUsuario = new ImageIcon("./imgs/adicionarUsuario.png");
 
     public GerenciarUsuariosGUI() {
+        sistema.lerDados();
         setTitle("Sistema Biblioteca");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(150, 150);

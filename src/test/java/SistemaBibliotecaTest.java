@@ -1,4 +1,3 @@
-import br.dcx.ufpb.bibioteca.Emprestimo;
 import br.dcx.ufpb.bibioteca.GeneroLivro;
 import br.dcx.ufpb.bibioteca.PeriodoEmprestimo;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
@@ -6,12 +5,9 @@ import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
 import br.dcx.ufpb.bibioteca.exception.LivroNaoExisteException;
 import br.dcx.ufpb.bibioteca.exception.MesInformadoNaoExisteException;
 import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class SistemaBibliotecaTest {
@@ -19,7 +15,7 @@ public class SistemaBibliotecaTest {
     private  SistemaBiblioteca sistemaBiblioteca;
 
     @Test
-    public void TestaCadastro_Imprestimo(){
+    public void TestaCadastro_Emprestimo(){
         sistemaBiblioteca  = new SistemaBiblioteca();
         try{
             sistemaBiblioteca.cadastrarUsuario("samuel","5203","marvel@gmail.com");
@@ -59,7 +55,7 @@ public class SistemaBibliotecaTest {
         }}
 
             @Test
-            public void TestaCadastro_BuscaDeImpertimosRealizadosNoMes(){
+            public void TestaCadastro_BuscaDeEmprestimosRealizadosNoMes(){
                 sistemaBiblioteca  = new SistemaBiblioteca();
                 try {
                     sistemaBiblioteca.cadastrarLivro("Imperio do sol",GeneroLivro.FANTASIA,"Arthur","2099");
@@ -91,7 +87,5 @@ public class SistemaBibliotecaTest {
                     }catch(LivroJaExisteException e ){
                         fail("Este Teste não deveria lançar essa exeção");
                     }
-
                 }
-
             }

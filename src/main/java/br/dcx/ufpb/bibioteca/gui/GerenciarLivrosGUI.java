@@ -18,6 +18,7 @@ public class GerenciarLivrosGUI extends JFrame {
     ImageIcon iconeRemoveLivro = new ImageIcon("./imgs/removerLivro.png");
 
     public GerenciarLivrosGUI() {
+        sistema.lerDados();
         setTitle("Sistema Biblioteca");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(150, 150);
@@ -75,7 +76,7 @@ public class GerenciarLivrosGUI extends JFrame {
         JButton botaoRemoverLivro = new JButton("Remover Livro", iconeRemoveLivro);
         botaoRemoverLivro.setPreferredSize(new Dimension(280, 60));
 
-        botaoPesqLivrosPorGenero.addActionListener(new BiblioRemoveLivroController(this.sistema, this));
+        botaoRemoverLivro.addActionListener(new BiblioRemoveLivroController(this.sistema, this));
 
         painelDeBotoes.add(botaoCadastrarLivros);
         painelDeBotoes.add(botaoPesqLivrosPorTitulo);

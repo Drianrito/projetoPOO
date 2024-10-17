@@ -25,6 +25,7 @@ public class BiblioCadLivroController implements ActionListener {
         boolean cadastrou = false;
         try {
             cadastrou = sistema.cadastrarLivro(tituloLivro, genero, autor, codLivro);
+            sistema.gravardados();
         } catch (LivroJaExisteException ex) {
             throw new RuntimeException(ex);
         }

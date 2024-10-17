@@ -19,6 +19,7 @@ public class BibliotecaGUI extends JFrame {
     BufferedImage imagemOriginal;
 
     public BibliotecaGUI() {
+        sistema.lerDados();
         setTitle("Sistema Biblioteca");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(150, 150);
@@ -96,7 +97,6 @@ public class BibliotecaGUI extends JFrame {
             if (largura > 0 && altura > 0) {
                 Image imagemRedimensionada = imagemOriginal.getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
                 ilustracaoBibliotecaRS = new ImageIcon(imagemRedimensionada);
-
                 linha1.setIcon(ilustracaoBibliotecaRS);
             }
         }

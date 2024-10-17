@@ -10,12 +10,12 @@ import java.awt.event.WindowListener;
 public class BibliotecaPrograma {
     public static void main(String[] args) {
         SistemaBiblioteca sistema = new SistemaBiblioteca();
-        sistema.lerEmprestimos();
+        sistema.lerDados();
         JFrame janela = new BibliotecaGUI();
         janela.setVisible(true);
         WindowListener fechadorDeJanela = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                sistema.gravarEmprestimos();
+                sistema.gravardados();
                 System.exit(0);
             }
         };

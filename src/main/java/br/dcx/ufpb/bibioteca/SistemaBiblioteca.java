@@ -164,11 +164,13 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
      * isso ele posibilita saber quem efetuol cada empertimo de livros que estão cadastrados na biblioteca e qual
      * dos usuarios o pegou empertado
      */
-    public void lerEmprestimos(){
+    public void lerDados(){
         try {
             this.emprestimos = gravador.leEmprestimos();
+            this.livros = gravador.leLivros();
         }catch (IOException e){
-            e.printStackTrace();
+            this.emprestimos = new ArrayList<>();
+            this.livros = new HashMap<>();
         }
     }
 
@@ -177,9 +179,10 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
      * da biblioteca que livro ele pegou e qual o praso que devolução deste livro com isso ele tem a importante
      * função de arquivar as informações de empertimos realizados
      */
-    public void  gravarEmprestimos(){
+    public void  gravardados(){
         try {
             gravador.gravarEmprestimos(this.emprestimos);
+            gravador.gravarLivros(this.livros);
         }catch (IOException e){
             e.printStackTrace();
         }

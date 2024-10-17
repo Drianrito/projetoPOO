@@ -16,6 +16,7 @@ public class GerenciarEmprestimosGUI extends JFrame {
     ImageIcon iconePesqEmpNoMes = new ImageIcon("./imgs/pesquisarEmprestimo.png");
 
     public GerenciarEmprestimosGUI() {
+        sistema.lerDados();
         setTitle("Sistema Biblioteca");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(150, 150);

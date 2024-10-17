@@ -1,8 +1,9 @@
 package br.dcx.ufpb.bibioteca;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Livro implements Comparable<Livro>{
+public class Livro implements Serializable {
 
     private String titulo;
     private GeneroLivro generoLivro;
@@ -74,8 +75,4 @@ public class Livro implements Comparable<Livro>{
         return Objects.hashCode(codLivro);
     }
 
-    @Override
-    public int compareTo(Livro o) {
-        return this.titulo.compareTo(o.getTitulo());
-    }
 }
