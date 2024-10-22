@@ -23,7 +23,7 @@ public class SistemaBibliotecaTest {
             LocalDate dataEmpertimo= LocalDate.of(2024,10,9);
             LocalDate dateDevolucao= LocalDate.of(2024,11,9);
             PeriodoEmprestimo periodoEmprestimo= new PeriodoEmprestimo(dataEmpertimo,dateDevolucao);
-            sistemaBiblioteca.realizarEmprestimo("5203","O rei",periodoEmprestimo);
+            sistemaBiblioteca.realizarEmprestimo("5203","100",periodoEmprestimo);
             assertEquals(sistemaBiblioteca.buscarEmprestimosRealizadosNoMes(10).size(),1);
         }catch (UsuarioJaExisteException | LivroJaExisteException | MesInformadoNaoExisteException e){
             fail(" Essa execção não deveria acontecer" + e.getMessage());
@@ -68,8 +68,8 @@ public class SistemaBibliotecaTest {
                         LocalDate dataEmpertimo2= LocalDate.of(2024,9,15);
                         LocalDate dateDevolucao2= LocalDate.of(2024,12,10);
                         PeriodoEmprestimo periodoEmprestimo2= new PeriodoEmprestimo(dataEmpertimo2,dateDevolucao2);
-                        sistemaBiblioteca.realizarEmprestimo("202401","Imperio do sol",periodoEmprestimo1);
-                        sistemaBiblioteca.realizarEmprestimo("202402","Star wars",periodoEmprestimo2);
+                        sistemaBiblioteca.realizarEmprestimo("202401","2099",periodoEmprestimo1);
+                        sistemaBiblioteca.realizarEmprestimo("202402","1457",periodoEmprestimo2);
                         assertTrue(sistemaBiblioteca.buscarEmprestimosRealizadosNoMes(9).size()==2);
                     }
                 catch (LivroJaExisteException|UsuarioJaExisteException|MesInformadoNaoExisteException e){
