@@ -19,7 +19,7 @@ public class BiblioRemoveLivroController implements ActionListener {
             try{
                 sistema.removerLivro(codigo);
             } catch (LivroNaoExisteException ex){
-                throw new RuntimeException(ex);
+                JOptionPane.showMessageDialog(janelaPrincipal,"Livro não cadastrado ano sistema.");
             }
 
     }

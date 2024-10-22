@@ -24,7 +24,8 @@ public class BiblioBuscarEmpMesController implements ActionListener {
             try {
                 JOptionPane.showMessageDialog(janelaPrincipal, sistema.buscarEmprestimosRealizadosNoMes(mes));
             } catch (MesInformadoNaoExisteException ex) {
-                throw new RuntimeException(ex);
+                JOptionPane.showMessageDialog(janelaPrincipal, "O mês informado é inválido.");
+
             }
         }
     }

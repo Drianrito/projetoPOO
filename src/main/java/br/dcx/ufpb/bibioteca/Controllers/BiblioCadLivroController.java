@@ -22,16 +22,12 @@ public class BiblioCadLivroController implements ActionListener {
         GeneroLivro genero = (GeneroLivro) JOptionPane.showInputDialog(janelaPrincipal,"Selecione o gênero:","Genero", JOptionPane.QUESTION_MESSAGE, null, GeneroLivro.values(), GeneroLivro.values()[0]);
         String autor = JOptionPane.showInputDialog(janelaPrincipal, "Qual o nome do autor?");
         String codLivro = JOptionPane.showInputDialog(janelaPrincipal, "Qual o código do livro?");
-        boolean cadastrou = false;
         try {
-            cadastrou = sistema.cadastrarLivro(tituloLivro, genero, autor, codLivro);
-            sistema.gravardados();
+           if(sistema.cadastrarLivro(tituloLivro, genero, autor, codLivro)){
+               sistema.gravardados();
+               JOptionPane.showMessageDialog(janelaPrincipal, "Livro cadastrado no sistema.");
+           }
         } catch (LivroJaExisteException ex) {
-            throw new RuntimeException(ex);
-        }
-        if (cadastrou) {
-            JOptionPane.showMessageDialog(janelaPrincipal, "Livro cadastrado no sistema.");
-        } else {
             JOptionPane.showMessageDialog(janelaPrincipal, "Ocorreu um erro ao tentar cadastrar.");
         }
     }
