@@ -1,5 +1,5 @@
-import br.dcx.ufpb.bibioteca.GeneroLivro;
-import br.dcx.ufpb.bibioteca.PeriodoEmprestimo;
+import br.dcx.ufpb.bibioteca.objects.GeneroLivro;
+import br.dcx.ufpb.bibioteca.objects.PeriodoEmprestimo;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
 import br.dcx.ufpb.bibioteca.exception.*;
 import org.junit.jupiter.api.Test;

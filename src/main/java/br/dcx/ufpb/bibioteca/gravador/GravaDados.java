@@ -1,13 +1,12 @@
 package br.dcx.ufpb.bibioteca.gravador;
 
-import br.dcx.ufpb.bibioteca.Emprestimo;
-import br.dcx.ufpb.bibioteca.Livro;
-import br.dcx.ufpb.bibioteca.Usuario;
+import br.dcx.ufpb.bibioteca.objects.Emprestimo;
+import br.dcx.ufpb.bibioteca.objects.Livro;
+import br.dcx.ufpb.bibioteca.objects.Usuario;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GravaDados {
 

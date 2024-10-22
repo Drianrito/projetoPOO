@@ -1,6 +1,6 @@
 package br.dcx.ufpb.bibioteca.Controllers;
 
-import br.dcx.ufpb.bibioteca.Livro;
+import br.dcx.ufpb.bibioteca.objects.Livro;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
 import javax.swing.*;
 import java.awt.event.ActionListener;

@@ -1,5 +1,5 @@
 package br.dcx.ufpb.bibioteca.Controllers;
-import br.dcx.ufpb.bibioteca.PeriodoEmprestimo;
+import br.dcx.ufpb.bibioteca.objects.PeriodoEmprestimo;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
 import br.dcx.ufpb.bibioteca.exception.LivroNaoExisteException;
 import br.dcx.ufpb.bibioteca.exception.MatriculaNaoEncontradaException;

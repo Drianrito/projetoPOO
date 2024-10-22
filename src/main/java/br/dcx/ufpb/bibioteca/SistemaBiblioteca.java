@@ -12,9 +12,7 @@ import java.util.List;
 import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
 import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
 import br.dcx.ufpb.bibioteca.gravador.GravaDados;
-
-import java.io.IOException;
-import java.util.*;
+import br.dcx.ufpb.bibioteca.objects.*;
 
 public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private HashMap<String, Livro> livros = new HashMap<>();

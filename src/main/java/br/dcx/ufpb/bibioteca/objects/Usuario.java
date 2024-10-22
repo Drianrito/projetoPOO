@@ -1,4 +1,4 @@
-package br.dcx.ufpb.bibioteca;
+package br.dcx.ufpb.bibioteca.objects;
 
 import java.io.Serializable;
 import java.util.Objects;

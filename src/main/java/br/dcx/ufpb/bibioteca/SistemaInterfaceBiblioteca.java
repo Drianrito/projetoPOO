@@ -1,9 +1,10 @@
 package br.dcx.ufpb.bibioteca;
 
 import br.dcx.ufpb.bibioteca.exception.*;
-
-import java.io.IOException;
-import java.util.Collection;
+import br.dcx.ufpb.bibioteca.objects.Emprestimo;
+import br.dcx.ufpb.bibioteca.objects.GeneroLivro;
+import br.dcx.ufpb.bibioteca.objects.Livro;
+import br.dcx.ufpb.bibioteca.objects.PeriodoEmprestimo;
 
 import java.util.Collection;
 
