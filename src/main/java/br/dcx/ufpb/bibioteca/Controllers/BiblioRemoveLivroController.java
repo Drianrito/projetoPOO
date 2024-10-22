@@ -18,6 +18,7 @@ public class BiblioRemoveLivroController implements ActionListener {
             String codigo = JOptionPane.showInputDialog(janelaPrincipal, "Qual a código do livro?");
             try{
                 sistema.removerLivro(codigo);
+                sistema.gravardados();
             } catch (LivroNaoExisteException ex){
                 JOptionPane.showMessageDialog(janelaPrincipal,"Livro não cadastrado ano sistema.");
             }

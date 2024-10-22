@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class BiblioRealizaEmpController implements ActionListener {
     private SistemaBiblioteca sistema;
@@ -22,12 +23,14 @@ public class BiblioRealizaEmpController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String matricula = JOptionPane.showInputDialog(janelaPrincipal, "Qual a matrícula do usuário?");
         String codigoLivro = JOptionPane.showInputDialog(janelaPrincipal, "Qual o código do livro?");
-        LocalDate dataEmprestimo = LocalDate.parse(JOptionPane.showInputDialog(janelaPrincipal, "Qual a data do empréstimo?"));
-        LocalDate dataDevolucao = LocalDate.parse(JOptionPane.showInputDialog(janelaPrincipal, "Qual  a data de devolução?"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataEmprestimo = LocalDate.parse(JOptionPane.showInputDialog(janelaPrincipal, "Qual a data do empréstimo? (dd/MM/yyyy)"), formatter);
+        LocalDate dataDevolucao = LocalDate.parse(JOptionPane.showInputDialog(janelaPrincipal, "Qual a data de devolução? (dd/MM/yyyy)"), formatter);
         PeriodoEmprestimo periodo = new PeriodoEmprestimo(dataEmprestimo, dataDevolucao);
         try {
             if (sistema.realizarEmprestimo(matricula, codigoLivro, periodo)) {
                 JOptionPane.showMessageDialog(janelaPrincipal, "Empréstimo realizado.");
+                sistema.gravardados();
             }
         } catch (LivroNaoExisteException | MatriculaNaoEncontradaException ex){
             JOptionPane.showMessageDialog(janelaPrincipal, "Não foi possível realizar o empréstimo.");

@@ -58,7 +58,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
             this.usuarios.add(novoUsuario);
             return true;
         } else {
-            throw new UsuarioJaExisteException("Já existe esse usuário no sistema.");
+            throw new UsuarioJaExisteException("Usuário já cadastrado no sistema.");
         }
     }
 
@@ -123,13 +123,12 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
                     Emprestimo emprestimo = new Emprestimo(matricula, codigoLivro, periodoEmprestimo);
                     this.emprestimos.add(emprestimo);
                     return true;
-                } else{
-                    throw new MatriculaNaoEncontradaException("Matrícula não cadastrada no sistema.");
                 }
             }
+            throw new MatriculaNaoEncontradaException("Matrícula não cadastrada no sistema.");
         } else{
             throw new LivroNaoExisteException("Livro não cadastrado no sistema.");
-        } return false;
+        }
     }
 
     /**
@@ -139,7 +138,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
      * @return ele vai retornar uma coleção com o empréstimo que foi realizado pelo usuario com a matrícula
      * iqual a passada como parâmetro
      * @throws MatriculaNaoEncontradaException essa exeção irá acontecer quando não existir um usuário
-     * cadastrado no sistema com a matricula iqual a passada como parâmetro
+     * cadastrado no sistema com a matrícula iqual a passada como parâmetro
      */
     public Emprestimo buscarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{
         return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElseThrow(() -> new MatriculaNaoEncontradaException("Matrícula não encontrada."));
@@ -148,11 +147,11 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     /**
      * Esse método vai receber um dado como parâmetro do tipo int que vai ser o mês, então com esse parâmetro iremos
      * percorrer o map de empréstimos para achar todos os emprestimos que foram realizados no mês que foi passado como
-     * parâmetro e achando cada empréstimo que foi realizado neste mês iremos coloca-lo em uma collection.
+     * parâmetro e achando cada empréstimo que foi realizado neste mês iremos colocá-lo em uma collection.
      * @param mes
-     * @return ele vai retornar uma coleção que contém  os empréstimos que aconteceram durante o mês passado como parâmetro
-     * @throws MesInformadoNaoExisteException essa exeção irá acontecer quando o mês que foi passado como parâmetro for menor que
-     * 1 e maior que 12 pois não existem mês no calendário que corespondam com essea números
+     * @return ele vai retornar uma coleção que contém os empréstimos que aconteceram durante o mês passado como parâmetro
+     * @throws MesInformadoNaoExisteException essa exeção irá acontecer quando o mês passado como parâmetro for menor que
+     * 1 e maior que 12, pois não existem mês no calendário que corespondam com essea números
      */
     public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
         Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();

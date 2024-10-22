@@ -15,13 +15,14 @@ public class BiblioBuscarEmpMatController implements ActionListener {
     public BiblioBuscarEmpMatController(SistemaBiblioteca sistema, JFrame janela) {
         this.sistema = sistema;
         this.janelaPrincipal = janela;
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String matricula = JOptionPane.showInputDialog(janelaPrincipal, "Qual a matrícula do usuário?");
         try{
-            JOptionPane.showMessageDialog(sistema.buscarEmprestimoPorMatricula(matricula));
+            JOptionPane.showMessageDialog(janelaPrincipal,sistema.buscarEmprestimoPorMatricula(matricula));
         } catch (MatriculaNaoEncontradaException ex){
             JOptionPane.showMessageDialog(janelaPrincipal, "Matrícula não encontrada no sistema.");
         }

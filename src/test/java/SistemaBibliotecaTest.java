@@ -1,10 +1,7 @@
 import br.dcx.ufpb.bibioteca.GeneroLivro;
 import br.dcx.ufpb.bibioteca.PeriodoEmprestimo;
 import br.dcx.ufpb.bibioteca.SistemaBiblioteca;
-import br.dcx.ufpb.bibioteca.exception.LivroJaExisteException;
-import br.dcx.ufpb.bibioteca.exception.LivroNaoExisteException;
-import br.dcx.ufpb.bibioteca.exception.MesInformadoNaoExisteException;
-import br.dcx.ufpb.bibioteca.exception.UsuarioJaExisteException;
+import br.dcx.ufpb.bibioteca.exception.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -25,7 +22,8 @@ public class SistemaBibliotecaTest {
             PeriodoEmprestimo periodoEmprestimo= new PeriodoEmprestimo(dataEmpertimo,dateDevolucao);
             sistemaBiblioteca.realizarEmprestimo("5203","100",periodoEmprestimo);
             assertEquals(sistemaBiblioteca.buscarEmprestimosRealizadosNoMes(10).size(),1);
-        }catch (UsuarioJaExisteException | LivroJaExisteException | MesInformadoNaoExisteException e){
+        }catch (UsuarioJaExisteException | LivroJaExisteException | MesInformadoNaoExisteException |
+                MatriculaNaoEncontradaException | LivroNaoExisteException e){
             fail(" Essa execção não deveria acontecer" + e.getMessage());
         }
     }
@@ -74,8 +72,10 @@ public class SistemaBibliotecaTest {
                     }
                 catch (LivroJaExisteException|UsuarioJaExisteException|MesInformadoNaoExisteException e){
                         fail("Este Teste não deveria lançar essa exeção");
+                } catch (MatriculaNaoEncontradaException | LivroNaoExisteException e) {
+                    fail("Este teste não deveria lançar essa exeção");
                 }
-    }
+            }
 
                 @Test
                 public void TestaCadastro_BuscaPorTitulo(){

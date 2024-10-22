@@ -1,5 +1,7 @@
 package br.dcx.ufpb.bibioteca;
 
+import java.util.Objects;
+
 public class Usuario {
 
     private String nome;
@@ -38,6 +40,20 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(matricula, usuario.matricula);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(matricula);
     }
 }
 
