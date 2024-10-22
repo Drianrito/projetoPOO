@@ -23,14 +23,14 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     private GravaDados gravador = new GravaDados();
 
     /**
-     * Esse metodo ira funcionar para que se posam adicionar livros no estoque da biblioteca para serem emprestados
+     * Esse método irá funcionar para  adicionar livros no estoque da biblioteca para serem emprestados
      * @param titulo
      * @param generoLivro
      * @param autor
      * @param codLivro
-     * @return ele retorna um valor verdadeiro(true) caso o livro o novo cadastro de um livro foi realizadp com
+     * @return ele retorna um valor verdadeiro(true) caso o cadastro de um livro foi realizado com
      * sucesso
-     * @throws LivroJaExisteException essa exeção sera lançada casa o livro que desejamos cadastrar ja exista na
+     * @throws LivroJaExisteException essa exeção sera lançada casa o livro que desejamos cadastrar já exista na
      * bilbioteca
      */
     public boolean cadastrarLivro(String titulo, GeneroLivro generoLivro, String autor, String codLivro) throws LivroJaExisteException {
@@ -44,14 +44,12 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     /**
-     *Esse metodo vai colocar nos arquivos do sistema de uma biblioteca o cadastro de um usuario para que ele possa
-     * pegar os realisar o impertio de livros da biblioteca
+     * Método que realiza o cadastro de um usuário no sistema
      * @param nome
      * @param matricula
      * @param email
-     * @return ele vai retorna um True que funciona com um sinal de que não tinha o ususario cadastrado antes no sistema da
-     * biblioteca,e ao memso tempo confirma que os cadastro do novo usuario foi realizado com suceso
-     * @throws UsuarioJaExisteException essa exeção sera lançada casa o usuario que desejamos cadastrar ja exista no
+     * @return  retorna um True para sinalizar que o usuário foi cadastrado no sistema
+     * @throws UsuarioJaExisteException essa exeção sera lançada casa o usuario que desejamos cadastrar já exista no
      * sistema da bilbioteca
      */
     public boolean cadastrarUsuario(String nome, String matricula, String email) throws UsuarioJaExisteException {
@@ -65,22 +63,22 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     /**
-     * ele vai percocorer o map que contem o conjunto dos livros que foram cadastrados, e ira colocar todos os
-     * livros que tenham o mesmo titulo que foi pasado como parametro e colocalos em uma Coleção
+     * Método que percorre o map dos livros que foram cadastrados, e irá colocar todos os
+     * livros que tenham o mesmo título que foi passado como parâmetro e coloca-los em uma Coleção
      * @param titulo
-     * @return ele ira retornar uma coleção de todos os livros cadastrados com o titulo deles sendo iqual
-     * a o titulo que foi passado como parametro
+     * @return  irá retornar uma coleção de todos os livros cadastrados com o título deles sendo iqual
+     * ao titulo que foi passado como parâmetro
      */
     public Collection<Livro> buscarLivroPorTitulo(String titulo) {
         return this.livros.values().stream().filter(livro -> livro.getTitulo().startsWith(titulo)).toList();
     }
 
     /**
-     * ele vai percocorer o map que contem o conjunto dos livros que foram cadastrados, e ira colocar todos os
-     * livros que tenham o mesmo genero que foi pasado como parametro e colocalos em uma Coleção
+     * ele vai percocorer o map que contém o conjunto dos livros que foram cadastrados, e irá colocar todos os
+     * livros que tenham o mesmo gênero que foi passado como parâmetro e coloca-los em uma Coleção
      * @param generoLivro
-     * @return ele ira retornar uma coleção de todos os livros cadastrados com o genero deles sendo iqual
-     * a o tipo de genero  que foi passado como parametro
+     * @return  irá retornar uma coleção de todos os livros cadastrados com o gênero deles sendo iqual
+     * ao tipo de gênero  que foi passado como parâmetro
      */
     public Collection<Livro> buscarLivrosPorGenero(GeneroLivro generoLivro) {
         Collection<Livro> livrosPorGenero = new ArrayList<>();
@@ -92,13 +90,13 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     /**
-     * esse metodo vai receber como parametro o codigo de um livro que com ele vai pesquisar no map de livros
-     * ate achar o livro que tenha o codigo e o achando ele vai removelo do map ou seja dos arquivos
+     * esse método vai receber como parâmetro o código de um livro que com ele vai pesquisar no map de livros
+     * até achar o livro que tenha o código e o achando ele vai remove-lo do map
      * @param codLivro
-     * @return vai retornar uma expreção boleana true que serve para intentificar que a operação de remoção foi
-     * efetuada com exito
-     * @throws LivroNaoExisteException essa exeção fai ser disparada se o codigo que foi passado com parametro
-     * não tiver nenum livro que tenha um codigo dele iqual a o parametro ou seja não existe nos arquivos
+     * @return vai retornar uma expreção boleana true que serve para sinalizar que a operação de remoção foi
+     * efetuada com êxito
+     * @throws LivroNaoExisteException essa exeção vai ser disparada se o código que foi passado como parâmetro
+     * não tiver nenhum livro que tenha um código dele iqual ao parâmetro
      */
     public boolean removerLivro(String codLivro) throws LivroNaoExisteException {
         if (this.livros.containsKey(codLivro)) {
@@ -110,39 +108,51 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     /**
-     * o metodo realizar a função de imprertimo de um livro para um ususario cadastrado no sistema da biblioteca
-     * para que isso acontece ele pasa a matricula para intentificar o usuario que vai estar pegando o livro,
-     * o titulo do livro para ser informado qual livro foi impertado e o periodo que o usuario pode ficar com o livro
+     * o método realiza a função de empréstimo de um livro para um usuário cadastrado no sistema da biblioteca
+     * para que isso acontece ele passa a matrícula para identificar o usuário que vai estar pegando o livro,
+     * o titulo do livro para ser informado qual livro foi emprestado e o período que o usuário pode ficar com o livro
      * @param matricula
-     * @param tituloLivro
+     * @param codigoLivro
      * @param periodoEmprestimo
      */
-    public void realizarEmprestimo(String matricula, String tituloLivro, PeriodoEmprestimo periodoEmprestimo) {
-        Emprestimo emprestimo = new Emprestimo(matricula, tituloLivro, periodoEmprestimo);
-        this.emprestimos.add(emprestimo);
+    @Override
+    public boolean realizarEmprestimo(String matricula, String codigoLivro, PeriodoEmprestimo periodoEmprestimo) throws LivroNaoExisteException, MatriculaNaoEncontradaException{
+        if(livros.containsKey(codigoLivro)){
+            for(Usuario u: usuarios){
+                if(u.getMatricula().equals(matricula)){
+                    Emprestimo emprestimo = new Emprestimo(matricula, codigoLivro, periodoEmprestimo);
+                    this.emprestimos.add(emprestimo);
+                    return true;
+                } else{
+                    throw new MatriculaNaoEncontradaException("Matrícula não cadastrada no sistema.");
+                }
+            }
+        } else{
+            throw new LivroNaoExisteException("Livro não cadastrado no sistema.");
+        } return false;
     }
 
     /**
-     * esse metodo vai receber como parametro a matricula de um aluno/usuario de uma biblioteca que quer pesquisar todos os
-     * impertimos que um susuario da matricula que foi pasada realizou
+     * esse método vai receber como parâmetro a matrícula de um usuário de uma biblioteca que quer pesquisar  o
+     * emprestimo que um usuário da matrícula realizou
      * @param matricula
-     * @return ele vai retornar uma coleçãocom totos os impertimos que foram realizados pelo usuario com a matricula
-     * iqual a pasada como parametro
-     * @throws MatriculaNaoEncontradaException essa exeção ira acontecer quando não existir um ususario
-     * cadastrada no sistema com a matricual iqual a pasada como parametro
+     * @return ele vai retornar uma coleção com o empréstimo que foi realizado pelo usuario com a matrícula
+     * iqual a passada como parâmetro
+     * @throws MatriculaNaoEncontradaException essa exeção irá acontecer quando não existir um usuário
+     * cadastrado no sistema com a matricula iqual a passada como parâmetro
      */
-    public Emprestimo buscarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{ // TODO: atualizar método para retornar uma lista
-        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElse(null);
+    public Emprestimo buscarEmprestimoPorMatricula(String matricula)throws MatriculaNaoEncontradaException{
+        return this.emprestimos.stream().filter(emprestimo -> emprestimo.getMatricula().equals(matricula)).findFirst().orElseThrow(() -> new MatriculaNaoEncontradaException("Matrícula não encontrada."));
     }
 
     /**
-     * Esse metodo vai receber um dado como parametro do tipo int que vai ser o mes, então com esse parametro irremos
-     * percorer o map de empertimos para achar todos os emprestimos que foram realizados no mes que foi pasado como
-     * parametro e achando cada empertimo que foi realizaod neste mes iremos colocalo em uma collectio.
+     * Esse método vai receber um dado como parâmetro do tipo int que vai ser o mês, então com esse parâmetro iremos
+     * percorrer o map de empréstimos para achar todos os emprestimos que foram realizados no mês que foi passado como
+     * parâmetro e achando cada empréstimo que foi realizado neste mês iremos coloca-lo em uma collection.
      * @param mes
-     * @return ele vai retonar uma coleção qeu contem dos os empertimos que aconteceram duram o mes pasado como parametro
-     * @throws MesInformadoNaoExisteException essa exeção ira acontecer quanto o mes que foi passado como parametro for menor que
-     * 1 e maior que 12 pois não existem mes no calendario que corespondão com esse numeros
+     * @return ele vai retornar uma coleção que contém  os empréstimos que aconteceram durante o mês passado como parâmetro
+     * @throws MesInformadoNaoExisteException essa exeção irá acontecer quando o mês que foi passado como parâmetro for menor que
+     * 1 e maior que 12 pois não existem mês no calendário que corespondam com essea números
      */
     public Collection<Emprestimo> buscarEmprestimosRealizadosNoMes(int mes) throws MesInformadoNaoExisteException {
         Collection<Emprestimo> emprestimosRealizadosNoMes = new ArrayList<>();
@@ -160,9 +170,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
 // GRAVA DADOS
 
     /**
-     * Esse metodo ira ter a função de ler os empertimos que aconteceram em todas as operações de empertimo com
-     * isso ele posibilita saber quem efetuol cada empertimo de livros que estão cadastrados na biblioteca e qual
-     * dos usuarios o pegou empertado
+     *  método que faz a leitura dos empréstimos salvos ao iniciar o sistema
      */
     public void lerDados(){
         try {
@@ -175,9 +183,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
     }
 
     /**
-     * Esse metodo vai gravar quando cada operação de empertimo e  realizada por um usuario cadastrado no sistema
-     * da biblioteca que livro ele pegou e qual o praso que devolução deste livro com isso ele tem a importante
-     * função de arquivar as informações de empertimos realizados
+     * Método para salvar os empréstimos feitos durante a operação do sistema quando o programa for finalizado
      */
     public void  gravardados(){
         try {
