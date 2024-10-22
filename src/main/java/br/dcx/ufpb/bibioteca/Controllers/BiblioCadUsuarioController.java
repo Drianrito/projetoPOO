@@ -22,6 +22,7 @@ public class BiblioCadUsuarioController implements ActionListener {
         String email = JOptionPane.showInputDialog(janelaPrincipal, "Qual o e-mail do usuário?");
         try {
             if(sistema.cadastrarUsuario(nome, matricula, email)){
+                sistema.gravardados();
                 JOptionPane.showMessageDialog(janelaPrincipal, "Usuário cadastrado no sistema.");
             };
         } catch (UsuarioJaExisteException ex) {

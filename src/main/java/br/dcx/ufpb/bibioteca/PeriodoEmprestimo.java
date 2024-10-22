@@ -1,8 +1,9 @@
 package br.dcx.ufpb.bibioteca;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PeriodoEmprestimo {
+public class PeriodoEmprestimo implements Serializable {
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
 

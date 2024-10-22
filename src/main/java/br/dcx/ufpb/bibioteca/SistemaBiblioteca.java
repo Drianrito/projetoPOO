@@ -175,9 +175,11 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         try {
             this.emprestimos = gravador.leEmprestimos();
             this.livros = gravador.leLivros();
+            this.usuarios = gravador.leUsuarios();
         }catch (IOException e){
             this.emprestimos = new ArrayList<>();
             this.livros = new HashMap<>();
+            this.usuarios = new ArrayList<>();
         }
     }
 
@@ -188,6 +190,7 @@ public class SistemaBiblioteca implements SistemaInterfaceBiblioteca {
         try {
             gravador.gravarEmprestimos(this.emprestimos);
             gravador.gravarLivros(this.livros);
+            gravador.gravarUsuario(this.usuarios);
         }catch (IOException e){
             e.printStackTrace();
         }

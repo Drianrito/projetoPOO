@@ -48,11 +48,10 @@ public class Emprestimo implements Serializable {
 
     @Override
     public String toString() {
-        return "Emprestimo{" +
-                "matricula='" + matricula + '\'' +
-                ", tituloLivro='" + tituloLivro + '\'' +
-                ", dataEmprestimo='" + getPeriodoEmprestimo().getDataEmprestimo() + '\'' +
-                ", dataDevolucao='" + getPeriodoEmprestimo().getDataDevolucao() + '\'' +
-                '}';
+        return "\n Emprestimo:" +
+                "\n matricula='" + matricula +
+                ",\n tituloLivro='" + tituloLivro +
+                ", \n dataEmprestimo='" + getPeriodoEmprestimo().getDataEmprestimo() +
+                ", \n dataDevolucao='" + getPeriodoEmprestimo().getDataDevolucao();
     }
 }
